@@ -14,7 +14,7 @@
 namespace brigand
 {
 
-#ifdef BRIGAND_COMP_MSVC
+#if defined(BRIGAND_COMP_MSVC) || defined(BRIGAND_COMP_CLANG_MSVC_ABI)
 
 namespace detail
 {
@@ -104,7 +104,8 @@ namespace detail
 }
 
 template <class... Ts>
-using is_set = bool_<sizeof(detail::is_set_cont<range<unsigned int, 0, sizeof...(Ts)>, Ts...>) == 1>;
+using is_set =
+    bool_<sizeof(detail::is_set_cont<range<unsigned int, 0, sizeof...(Ts)>, Ts...>) == 1>;
 
 #endif
 }

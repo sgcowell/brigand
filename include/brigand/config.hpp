@@ -9,12 +9,17 @@
 
 // configuration macros for brigand
 
-#if defined(_MSC_VER) && !defined(__GNUC__) && !defined(__clang__)
+#if defined(_MSC_VER) && !defined(__GNUC__)
+#if !defined(__clang__)
 #define BRIGAND_COMP_MSVC
 #if _MSC_VER == 1900
 #define BRIGAND_COMP_MSVC_2015
 #elif _MSC_VER == 1800
 #define BRIGAND_COMP_MSVC_2013
+#endif
+#else
+#define BRIGAND_COMP_CLANG
+#define BRIGAND_COMP_CLANG_MSVC_ABI
 #endif
 #elif __INTEL_COMPILER
 #define BRIGAND_COMP_INTEL

@@ -1,11 +1,28 @@
 /*!
 @file
-
 @copyright Edouard Alligand and Joel Falcou 2015-2017
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 */
 #ifndef BRIGAND_HPP_INCLUDED
 #define BRIGAND_HPP_INCLUDED
+#ifndef BOOST_BRIGAND_ADAPTED_HPP
+#define BOOST_BRIGAND_ADAPTED_HPP
+#ifndef BOOST_BRIGAND_ADAPTED_INTEGRAL_LIST_HPP
+#define BOOST_BRIGAND_ADAPTED_INTEGRAL_LIST_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_TRANSFORM_HPP
+#define BOOST_BRIGAND_ALGORITHMS_TRANSFORM_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_LAMBDA_APPLY_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LAMBDA_APPLY_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_LAMBDA_BIND_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LAMBDA_BIND_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_AT_HPP
+#define BOOST_BRIGAND_SEQUENCES_AT_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_FILLED_LIST_HPP
+#define BOOST_BRIGAND_SEQUENCES_FILLED_LIST_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_LIST_HPP
+#define BOOST_BRIGAND_SEQUENCES_LIST_HPP
+#ifndef BOOST_BRIGAND_TYPES_INTEGRAL_CONSTANT_HPP
+#define BOOST_BRIGAND_TYPES_INTEGRAL_CONSTANT_HPP
 namespace brigand
 {
 template <typename T, T Value>
@@ -22,6 +39,7 @@ const T integral_constant<T, Value>::value;
 using true_type = ::brigand::integral_constant<bool, true>;
 using false_type = ::brigand::integral_constant<bool, false>;
 }
+#endif
 namespace brigand
 {
 template <class... T>
@@ -32,6 +50,7 @@ template <typename T, T... Values>
 using integral_list = brigand::list<brigand::integral_constant<T, Values>...>;
 using empty_sequence = brigand::list<>;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -63,6 +82,13 @@ namespace detail
 template <class T, unsigned int N, template <class...> class List = list>
 using filled_list = typename detail::filled_list_impl<T, List, N>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_MAP_HPP
+#define BOOST_BRIGAND_SEQUENCES_MAP_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_APPEND_HPP
+#define BOOST_BRIGAND_SEQUENCES_APPEND_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_WRAP_HPP
+#define BOOST_BRIGAND_ALGORITHMS_WRAP_HPP
 namespace brigand
 {
   namespace lazy
@@ -77,6 +103,7 @@ namespace brigand
   template<class A, template<class...> class B>
   using wrap = typename lazy::wrap<A, B>::type;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -137,6 +164,9 @@ namespace lazy
 template <typename T>
 using join = wrap<T, append>;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_PAIR_HPP
+#define BOOST_BRIGAND_SEQUENCES_PAIR_HPP
 namespace brigand
 {
     template <typename First, typename Second>
@@ -146,15 +176,22 @@ namespace brigand
         using second_type = Second;
     };
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_NO_SUCH_TYPE_HPP
+#define BOOST_BRIGAND_TYPES_NO_SUCH_TYPE_HPP
 namespace brigand
 {
     struct no_such_type_ {};
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_TYPE_HPP
+#define BOOST_BRIGAND_TYPES_TYPE_HPP
 namespace brigand
 {
   template<typename T> struct type_ { using type = T; };
   template<typename T> using type_from = typename T::type;
 }
+#endif
 #include <type_traits>
 namespace brigand
 {
@@ -232,6 +269,7 @@ namespace detail
 template <class... Ts>
 using map = typename detail::make_map<Ts...>::type;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -283,6 +321,7 @@ namespace detail
 template <class Seq, typename K>
 using at = typename detail::at_dispatch<Seq, K, detail::has_at_method<Seq>::value>::type;
 }
+#endif
 namespace brigand
 {
   template <template <typename...> class, typename...>
@@ -290,6 +329,9 @@ namespace brigand
   {
   };
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_ARGS_HPP
+#define BOOST_BRIGAND_TYPES_ARGS_HPP
 namespace brigand
 {
   template<unsigned int Index> struct args
@@ -307,6 +349,7 @@ namespace brigand
   using _state = _1;
   using _element = _2;
 }
+#endif
 namespace brigand
 {
 template <typename T>
@@ -384,12 +427,24 @@ namespace detail
 template <typename Lambda, typename... Args>
 using apply = typename detail::apply<Lambda, brigand::list<Args...>>::type;
 }
-#if defined(_MSC_VER) && !defined(__GNUC__) && !defined(__clang__)
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_BACK_HPP
+#define BOOST_BRIGAND_SEQUENCES_BACK_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_SPLIT_AT_HPP
+#define BOOST_BRIGAND_ALGORITHMS_SPLIT_AT_HPP
+#ifndef BOOST_BRIGAND_CONFIG_HPP
+#define BOOST_BRIGAND_CONFIG_HPP
+#if defined(_MSC_VER) && !defined(__GNUC__)
+#if !defined(__clang__)
 #define BRIGAND_COMP_MSVC
 #if _MSC_VER == 1900
 #define BRIGAND_COMP_MSVC_2015
 #elif _MSC_VER == 1800
 #define BRIGAND_COMP_MSVC_2013
+#endif
+#else
+#define BRIGAND_COMP_CLANG
+#define BRIGAND_COMP_CLANG_MSVC_ABI
 #endif
 #elif __INTEL_COMPILER
 #define BRIGAND_COMP_INTEL
@@ -403,6 +458,9 @@ using apply = typename detail::apply<Lambda, brigand::list<Args...>>::type;
 #if defined(__CUDACC__)
 #define BRIGAND_COMP_CUDA
 #endif
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_CLEAR_HPP
+#define BOOST_BRIGAND_SEQUENCES_CLEAR_HPP
 namespace brigand
 {
 namespace detail
@@ -418,6 +476,7 @@ namespace detail
   template<class L>
   using clear = typename detail::clear_impl<L>::type;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -473,6 +532,9 @@ namespace lazy
 template <typename L, typename I>
 using split_at = typename ::brigand::lazy::split_at<L, I>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_FRONT_HPP
+#define BOOST_BRIGAND_SEQUENCES_FRONT_HPP
 namespace brigand
 {
 namespace detail
@@ -540,6 +602,18 @@ namespace lazy
 template <class L, class N = brigand::integral_constant<unsigned int, 1>>
 using pop_front = typename detail::pop_front_impl<L, N::value>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_SIZE_HPP
+#define BOOST_BRIGAND_SEQUENCES_SIZE_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_COUNT_HPP
+#define BOOST_BRIGAND_ALGORITHMS_COUNT_HPP
+#if __cplusplus >= 201402L
+#include <array>
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_LAMBDA_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LAMBDA_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_LAMBDA_SUBSTITUTE_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LAMBDA_SUBSTITUTE_HPP
 namespace brigand
 {
   template<unsigned int Index> struct args;
@@ -564,6 +638,10 @@ namespace brigand
   template<typename T, typename List>
   using substitute = typename detail::substitute_impl<T,List>::type;
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_TYPES_INTEGER_HPP
+#define BOOST_BRIGAND_TYPES_INTEGER_HPP
 #include <cstddef>
 #include <cstdint>
 namespace brigand
@@ -589,16 +667,33 @@ using size_t = brigand::integral_constant<std::size_t, V>;
 template <std::ptrdiff_t V>
 using ptrdiff_t = brigand::integral_constant<std::ptrdiff_t, V>;
 }
+#endif
 namespace brigand
 {
 namespace detail
 {
 #if defined(BRIGAND_COMP_GCC) || defined(BRIGAND_COMP_CLANG)
+#if __cplusplus >= 201402L
+    template <std::size_t length>
+    constexpr unsigned int count_bools(const std::array<bool, length> & s) noexcept
+    {
+        unsigned int number_of_true_elements = 0;
+        for (std::size_t i = 0; i < length; ++i)
+        {
+            if (s[i])
+            {
+                number_of_true_elements++;
+            }
+        }
+        return number_of_true_elements;
+    }
+#else
     constexpr unsigned int count_bools(bool const * const begin, bool const * const end,
-                                      unsigned int n)
+                                       unsigned int n)
     {
         return begin == end ? n : detail::count_bools(begin + 1, end, n + *begin);
     }
+#endif
 #endif
     template <bool... Bs>
     struct template_count_bools
@@ -645,20 +740,35 @@ namespace lazy
     template <template <typename...> class S, typename... Ts, typename Pred>
     struct count_if<S<Ts...>, Pred>
     {
+#if __cplusplus >= 201402L
+        static constexpr std::array<bool, sizeof...(Ts)> s_v{{::brigand::apply<Pred, Ts>::type::value...}};
+        using type = brigand::size_t<::brigand::detail::count_bools(s_v)>;
+#else
         static constexpr bool s_v[] = {::brigand::apply<Pred, Ts>::type::value...};
         using type = brigand::size_t<::brigand::detail::count_bools(s_v, s_v + sizeof...(Ts), 0u)>;
+#endif
     };
     template <template <typename...> class S, typename... Ts, template <typename...> class F>
     struct count_if<S<Ts...>, bind<F, _1>>
     {
+#if __cplusplus >= 201402L
+        static constexpr std::array<bool, sizeof...(Ts)> s_v{{F<Ts>::type::value...}};
+        using type = brigand::size_t<::brigand::detail::count_bools(s_v)>;
+#else
         static constexpr bool s_v[] = {F<Ts>::value...};
         using type = brigand::size_t<::brigand::detail::count_bools(s_v, s_v + sizeof...(Ts), 0u)>;
+#endif
     };
     template <template <typename...> class S, typename... Ts, template <typename...> class F>
     struct count_if<S<Ts...>, F<_1>>
     {
+#if __cplusplus >= 201402L
+        static constexpr std::array<bool, sizeof...(Ts)> s_v{{F<Ts>::type::value...}};
+        using type = brigand::size_t<::brigand::detail::count_bools(s_v)>;
+#else
         static constexpr bool s_v[] = {F<Ts>::type::value...};
         using type = brigand::size_t<::brigand::detail::count_bools(s_v, s_v + sizeof...(Ts), 0u)>;
+#endif
     };
 #else
 #if defined(BRIGAND_COMP_MSVC_2015)
@@ -683,10 +793,12 @@ using count_if = typename lazy::count_if<List, Pred>::type;
 template <class... T>
 using count = brigand::integral_constant<unsigned int, sizeof...(T)>;
 }
+#endif
 namespace brigand
 {
   template<class L> using size = wrap<L, count>;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -707,6 +819,7 @@ template <class L, class N = brigand::integral_constant<unsigned int, 1>>
 using pop_back =
     front<split_at<L, brigand::integral_constant<unsigned int, size<L>::value - N::value>>>;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -785,6 +898,7 @@ namespace lazy
 template <typename Sequence1, typename OpSeq1, typename... OpSeq2>
 using transform = typename detail::transform<sizeof...(OpSeq2), Sequence1, OpSeq1, OpSeq2...>::type;
 }
+#endif
 namespace brigand
 {
 template <typename T>
@@ -794,6 +908,9 @@ struct make_integral : brigand::integral_constant<typename T::value_type, T::val
 template <typename L>
 using as_integral_list = transform<L, make_integral<brigand::_1>>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ADAPTED_LIST_HPP
+#define BOOST_BRIGAND_ADAPTED_LIST_HPP
 namespace brigand
 {
 namespace detail
@@ -809,6 +926,9 @@ using as_sequence = typename detail::as_sequence_impl<L, Sequence>::type;
 template <typename L>
 using as_list = as_sequence<L, brigand::list>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ADAPTED_PAIR_HPP
+#define BOOST_BRIGAND_ADAPTED_PAIR_HPP
 #include <utility>
 namespace brigand
 {
@@ -830,6 +950,9 @@ namespace brigand
   template <typename L>
   using as_pair = wrap<L, pair_wrapper>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ADAPTED_TUPLE_HPP
+#define BOOST_BRIGAND_ADAPTED_TUPLE_HPP
 #include <tuple>
 namespace brigand
 {
@@ -838,7 +961,10 @@ namespace brigand
   template <typename L>
   using as_tuple = wrap<L, tuple_wrapper>;
 }
+#endif
 #if !defined(BRIGAND_NO_BOOST_SUPPORT)
+#ifndef BOOST_BRIGAND_ADAPTED_FUSION_HPP
+#define BOOST_BRIGAND_ADAPTED_FUSION_HPP
 #include <boost/fusion/container/vector/vector_fwd.hpp>
 #include <boost/fusion/container/deque/deque_fwd.hpp>
 #include <boost/fusion/container/list/list_fwd.hpp>
@@ -858,6 +984,9 @@ namespace brigand
   template <typename L> using as_fusion_list   = wrap<L, fusion_list_wrapper>;
   template <typename L> using as_fusion_set    = wrap<L, fusion_set_wrapper>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ADAPTED_VARIANT_HPP
+#define BOOST_BRIGAND_ADAPTED_VARIANT_HPP
 #include <boost/variant.hpp>
 namespace brigand
 {
@@ -867,11 +996,22 @@ namespace brigand
   using as_variant = wrap<L, variant_wrapper>;
 }
 #endif
+#endif
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_HPP
+#define BOOST_BRIGAND_ALGORITHMS_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_ALL_HPP
+#define BOOST_BRIGAND_ALGORITHMS_ALL_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_DETAIL_NON_NULL_HPP
+#define BOOST_BRIGAND_ALGORITHMS_DETAIL_NON_NULL_HPP
+#ifndef BOOST_BRIGAND_TYPES_BOOL_HPP
+#define BOOST_BRIGAND_TYPES_BOOL_HPP
 namespace brigand
 {
 template <bool B>
 using bool_ = brigand::integral_constant<bool, B>;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -881,6 +1021,7 @@ namespace detail
     using non_null = non_null_impl<_1>;
 }
 }
+#endif
 #include <initializer_list>
 #include <type_traits>
 namespace brigand
@@ -950,6 +1091,11 @@ namespace detail
 template <typename Sequence, typename Predicate = detail::non_null>
 using all = typename detail::all_impl<Sequence, Predicate>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_ANY_HPP
+#define BOOST_BRIGAND_ALGORITHMS_ANY_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_NONE_HPP
+#define BOOST_BRIGAND_ALGORITHMS_NONE_HPP
 namespace brigand
 {
 #if defined(BRIGAND_COMP_MSVC_2013) || defined(BRIGAND_COMP_CUDA) || defined(BRIGAND_COMP_INTEL)
@@ -1003,6 +1149,7 @@ namespace detail
 template <typename Sequence, typename Predicate = detail::non_null>
 using none = typename detail::none_impl<Sequence, Predicate>::type;
 }
+#endif
 namespace brigand
 {
   namespace detail
@@ -1013,6 +1160,11 @@ namespace brigand
   template<typename Sequence, typename Predicate = detail::non_null>
   using any = typename detail::any_impl<Sequence,Predicate>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_FIND_HPP
+#define BOOST_BRIGAND_ALGORITHMS_FIND_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_DETAIL_FIND_HPP
+#define BOOST_BRIGAND_ALGORITHMS_DETAIL_FIND_HPP
 namespace brigand
 {
 namespace detail
@@ -1062,6 +1214,9 @@ namespace detail
     };
 }
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_REVERSE_HPP
+#define BOOST_BRIGAND_ALGORITHMS_REVERSE_HPP
 namespace brigand
 {
 namespace detail
@@ -1099,6 +1254,7 @@ namespace lazy
     template <typename L>
     using reverse = typename detail::reverse_impl<L>::type;
 }
+#endif
 namespace brigand
 {
 namespace lazy
@@ -1142,6 +1298,9 @@ using not_found = typename detail::empty_find<Sequence, Predicate>;
 template <typename Sequence, typename Predicate = detail::non_null>
 using found = typename detail::non_empty_find<Sequence, Predicate>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_FLATTEN_HPP
+#define BOOST_BRIGAND_ALGORITHMS_FLATTEN_HPP
 namespace brigand
 {
 namespace detail
@@ -1175,6 +1334,11 @@ namespace lazy
 template <typename Sequence>
 using flatten = typename lazy::flatten<Sequence>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_FOLD_HPP
+#define BOOST_BRIGAND_ALGORITHMS_FOLD_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_DETAIL_FOLD_HPP
+#define BOOST_BRIGAND_ALGORITHMS_DETAIL_FOLD_HPP
 namespace brigand { namespace detail
 {
   template<class Functor, class State, class Sequence>
@@ -1354,6 +1518,7 @@ namespace brigand { namespace detail
       >;
   };
 } }
+#endif
 namespace brigand
 {
 namespace lazy
@@ -1368,6 +1533,11 @@ using fold = typename ::brigand::lazy::fold<Sequence, State, Functor>::type;
 template <class Sequence, class State, class Functor>
 using reverse_fold = typename ::brigand::lazy::reverse_fold<Sequence, State, Functor>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_FOR_EACH_HPP
+#define BOOST_BRIGAND_ALGORITHMS_FOR_EACH_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_FOR_EACH_ARGS_HPP
+#define BOOST_BRIGAND_ALGORITHMS_FOR_EACH_ARGS_HPP
 #include <initializer_list>
 #include <functional>
 namespace brigand
@@ -1377,6 +1547,7 @@ namespace brigand
     return (void)std::initializer_list<int>{((void)std::ref(f)(static_cast<Ts&&>(a)),0)...}, f;
   }
 }
+#endif
 namespace brigand
 {
   namespace detail
@@ -1392,6 +1563,9 @@ namespace brigand
     return detail::for_each_impl( List{}, f );
   }
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_INDEX_OF_HPP
+#define BOOST_BRIGAND_ALGORITHMS_INDEX_OF_HPP
 namespace brigand
 {
 namespace detail
@@ -1414,6 +1588,11 @@ using index_if = typename detail::index_if_impl< ::brigand::found<Sequence, Pred
 template <class Sequence, typename T>
 using index_of = index_if<Sequence, std::is_same<typename brigand::pin<T>, ::brigand::_1>>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_IS_SET_HPP
+#define BOOST_BRIGAND_ALGORITHMS_IS_SET_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_RANGE_HPP
+#define BOOST_BRIGAND_SEQUENCES_RANGE_HPP
 namespace brigand
 {
 namespace detail
@@ -1499,9 +1678,10 @@ using range = typename detail::range_impl<T, Start, Stop - Start>::type;
 template <class T, T Start, T Stop>
 using reverse_range = typename detail::reverse_range_safe<T, Start, Stop>::type;
 }
+#endif
 namespace brigand
 {
-#ifdef BRIGAND_COMP_MSVC
+#if defined(BRIGAND_COMP_MSVC) || defined(BRIGAND_COMP_CLANG_MSVC_ABI)
 namespace detail
 {
     template <class, class T>
@@ -1574,9 +1754,15 @@ namespace detail
     };
 }
 template <class... Ts>
-using is_set = bool_<sizeof(detail::is_set_cont<range<unsigned int, 0, sizeof...(Ts)>, Ts...>) == 1>;
+using is_set =
+    bool_<sizeof(detail::is_set_cont<range<unsigned int, 0, sizeof...(Ts)>, Ts...>) == 1>;
 #endif
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_PARTITION_HPP
+#define BOOST_BRIGAND_ALGORITHMS_PARTITION_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_REMOVE_HPP
+#define BOOST_BRIGAND_ALGORITHMS_REMOVE_HPP
 #include <type_traits>
 namespace brigand
 {
@@ -1701,11 +1887,15 @@ using remove = typename lazy::remove<L, T>::type;
 template <typename L, typename Pred>
 using filter = typename lazy::filter<L, Pred>::type;
 }
+#endif
 namespace brigand
 {
 template <class Seq, class Pred>
 using partition = pair<filter<Seq, Pred>, remove_if<Seq, Pred>>;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_REPLACE_HPP
+#define BOOST_BRIGAND_ALGORITHMS_REPLACE_HPP
 #include <type_traits>
 namespace brigand
 {
@@ -1746,6 +1936,9 @@ using replace_if = typename ::brigand::lazy::replace_if<Sequence, Predicate, New
 template <typename Sequence, typename OldType, typename NewType>
 using replace = typename ::brigand::lazy::replace<Sequence, OldType, NewType>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_SELECT_HPP
+#define BOOST_BRIGAND_ALGORITHMS_SELECT_HPP
 #include <type_traits>
 #include <utility>
 namespace brigand
@@ -1761,6 +1954,9 @@ namespace brigand
     return std::forward<F>(f);
   }
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_SPLIT_HPP
+#define BOOST_BRIGAND_ALGORITHMS_SPLIT_HPP
 namespace brigand
 {
 namespace detail
@@ -1816,11 +2012,19 @@ namespace lazy
 template<typename TList, typename TDelim>
 using split = typename lazy::split<TList, TDelim>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_ALGORITHMS_SORT_HPP
+#define BOOST_BRIGAND_ALGORITHMS_SORT_HPP
+#ifndef BOOST_BRIGAND_ALGORITHMS_MERGE_HPP
+#define BOOST_BRIGAND_ALGORITHMS_MERGE_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_LESS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_LESS_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct less : bool_ < (A::value < B::value) > {};
 }
+#endif
 #include <type_traits>
 namespace brigand
 {
@@ -1901,6 +2105,7 @@ using merge =
     append<clear<Seq1>,
            typename detail::merge_impl<list<>, wrap<Seq1, list>, wrap<Seq2, list>, Comp>::type>;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -2122,6 +2327,14 @@ namespace detail
 template <class Seq, class Comp = less<_1, _2>>
 using sort = append<clear<Seq>, typename detail::sort_impl<list<>, wrap<Seq, list>, Comp>::type>;
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_COMPLEMENT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_COMPLEMENT_HPP
 namespace brigand
 {
 template <typename A>
@@ -2130,11 +2343,21 @@ struct complement
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_DIVIDES_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_DIVIDES_HPP
 namespace brigand
 {
-  template <typename A, typename B>
-  struct divides : brigand::integral_constant < typename A::value_type, A::value / B::value > {};
+template <typename A, typename B>
+struct divides
+    : brigand::integral_constant<typename std::decay<decltype(A::value / B::value)>::type,
+                                 A::value / B::value>
+{
+};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_IDENTITY_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_IDENTITY_HPP
 namespace brigand
 {
   template<class T>
@@ -2143,36 +2366,54 @@ namespace brigand
     using type = T;
   };
 }
-namespace brigand
-{
-  template <typename A, typename B>
-  struct max : brigand::integral_constant < typename A::value_type
-                                      , (A::value < B::value) ? B::value : A::value
-                                      >
-  {};
-}
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MAX_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MAX_HPP
 namespace brigand
 {
 template <typename A, typename B>
-struct min : brigand::integral_constant<typename A::value_type,
-                                        (A::value < B::value) ? A::value : B::value>
-{
-};
+struct max : brigand::integral_constant<
+                 typename std::decay<decltype((A::value < B::value) ? B::value : A::value)>::type,
+                 (A::value < B::value) ? B::value : A::value>
+{};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MIN_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MIN_HPP
 namespace brigand
 {
 template <typename A, typename B>
-struct minus : brigand::integral_constant<typename A::value_type, A::value - B::value>
+struct min : brigand::integral_constant<
+                 typename std::decay<decltype((A::value < B::value) ? A::value : B::value)>::type,
+                 (A::value < B::value) ? A::value : B::value>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MINUS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MINUS_HPP
 namespace brigand
 {
 template <typename A, typename B>
-struct modulo : brigand::integral_constant<typename A::value_type, A::value % B::value>
+struct minus : brigand::integral_constant<typename std::decay<decltype(A::value - B::value)>::type,
+                                          A::value - B::value>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MODULO_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_MODULO_HPP
+namespace brigand
+{
+template <typename A, typename B>
+struct modulo : brigand::integral_constant<typename std::decay<decltype(A::value % B::value)>::type,
+                                           A::value % B::value>
+{
+};
+}
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_NEGATE_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_NEGATE_HPP
 namespace brigand
 {
 template <typename A>
@@ -2180,6 +2421,9 @@ struct negate : brigand::integral_constant<typename A::value_type, -A::value>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_NEXT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_NEXT_HPP
 namespace brigand
 {
 template <typename A>
@@ -2187,13 +2431,20 @@ struct next : brigand::integral_constant<typename A::value_type, A::value + 1>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_PLUS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_PLUS_HPP
 namespace brigand
 {
 template <typename A, typename B>
-struct plus : brigand::integral_constant<typename A::value_type, A::value + B::value>
+struct plus : brigand::integral_constant<typename std::decay<decltype(A::value + B::value)>::type,
+                                         A::value + B::value>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_PREV_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_PREV_HPP
 namespace brigand
 {
 template <typename A>
@@ -2201,13 +2452,23 @@ struct prev : brigand::integral_constant<typename A::value_type, A::value - 1>
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_TIMES_HPP
+#define BOOST_BRIGAND_FUNCTIONS_ARITHMETIC_TIMES_HPP
 namespace brigand
 {
 template <typename A, typename B>
-struct times : brigand::integral_constant<typename A::value_type, A::value * B::value>
+struct times : brigand::integral_constant<typename std::decay<decltype(A::value * B::value)>::type,
+                                          A::value * B::value>
 {
 };
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_BITAND_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_BITAND_HPP
 namespace brigand
 {
 template <typename A, typename B>
@@ -2215,6 +2476,9 @@ struct bitand_ : brigand::integral_constant<typename A::value_type, A::value & B
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_BITOR_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_BITOR_HPP
 namespace brigand
 {
 template <typename A, typename B>
@@ -2222,6 +2486,9 @@ struct bitor_ : brigand::integral_constant<typename A::value_type, A::value | B:
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_BITXOR_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_BITXOR_HPP
 namespace brigand
 {
 template <typename A, typename B>
@@ -2229,41 +2496,69 @@ struct bitxor_ : brigand::integral_constant<typename A::value_type, A::value ^ B
 {
 };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_SHIFT_LEFT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_SHIFT_LEFT_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct shift_left : brigand::integral_constant<typename A::value_type, (A::value << B::value)> {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_BITWISE_SHIFT_RIGHT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_BITWISE_SHIFT_RIGHT_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct shift_right : brigand::integral_constant<typename A::value_type, (A::value >> B::value)> {};
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISONS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISONS_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_EQUAL_TO_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_EQUAL_TO_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct equal_to : bool_ < (A::value == B::value) > {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_GREATER_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_GREATER_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct greater : bool_<(A::value > B::value) > {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_GREATER_EQUAL_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_GREATER_EQUAL_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct greater_equal : bool_ < (A::value >= B::value) > {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_LESS_EQUAL_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_LESS_EQUAL_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct less_equal : bool_ < (A::value <= B::value) > {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_COMPARISON_NOT_EQUAL_TO_HPP
+#define BOOST_BRIGAND_FUNCTIONS_COMPARISON_NOT_EQUAL_TO_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct not_equal_to : bool_ < (A::value != B::value) > {};
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_EVAL_IF_HPP
+#define BOOST_BRIGAND_FUNCTIONS_EVAL_IF_HPP
 #include <type_traits>
 namespace brigand
 {
@@ -2278,6 +2573,9 @@ namespace brigand
     using type = typename std::conditional<Condition, A, B>::type::type;
   };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_IF_HPP
+#define BOOST_BRIGAND_FUNCTIONS_IF_HPP
 #include <type_traits>
 namespace brigand
 {
@@ -2286,26 +2584,108 @@ namespace brigand
   template <bool Condition, typename A, typename B>
   struct if_c : std::conditional<Condition, A, B> {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_LOGICAL_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LOGICAL_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_LOGICAL_AND_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LOGICAL_AND_HPP
 namespace brigand
 {
-  template <typename A, typename B>
-  struct and_ : brigand::integral_constant <typename A::value_type, A::value && B::value > {};
+namespace detail
+{
+    template <unsigned N>
+    struct and_impl;
+    template <>
+    struct and_impl<0>
+    {
+        template <typename T0=bool_<true>, typename T1 = bool_<true>, typename T2 = bool_<true>,
+                  typename T3=bool_<true>, typename T4 = bool_<true>, typename T5 = bool_<true>,
+                  typename T6=bool_<true>, typename T7 = bool_<true>, typename T8 = bool_<true>>
+        using f = bool_<T0::value && T1::value && T2::value && T3::value && T4::value &&
+                        T5::value && T6::value && T7::value && T8::value>;
+    };
+    template<>
+    struct and_impl<1>
+    {
+        template <typename T0=bool_<true>, typename T1 = bool_<true>, typename T2 = bool_<true>,
+                  typename T3=bool_<true>, typename T4 = bool_<true>, typename T5 = bool_<true>,
+                  typename T6=bool_<true>, typename T7 = bool_<true>, typename T8 = bool_<true>,
+                  typename T9=bool_<true>, typename T10 = bool_<true>, typename T11 = bool_<true>,
+                  typename T12=bool_<true>, typename T13 = bool_<true>, typename T14 = bool_<true>,
+                  typename T15=bool_<true>, typename T16 = bool_<true>, typename T17 = bool_<true>,
+                  typename T18=bool_<true>, typename T19 = bool_<true>, typename... Ts>
+        using f = bool_<T0::value && T1::value && T2::value && T3::value && T4::value &&
+                        T5::value && T6::value && T7::value && T8::value && T9::value &&
+                        T10::value && T11::value && T12::value && T13::value && T14::value &&
+                        T15::value && T16::value && T17::value && T18::value && T19::value &&
+                        and_impl<(sizeof...(Ts) / 9) != 0>::template f<Ts...>::value>;
+    };
 }
+template<typename...Ts>
+struct and_: detail::and_impl<(sizeof...(Ts) / 9) != 0>::template f<Ts...>
+{};
+}
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_LOGICAL_NOT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LOGICAL_NOT_HPP
 namespace brigand
 {
   template <typename T>
   struct not_ : brigand::integral_constant<typename T::value_type, !T::value> {};
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_LOGICAL_OR_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LOGICAL_OR_HPP
 namespace brigand
 {
-  template <typename A, typename B>
-  struct or_ : brigand::integral_constant < typename A::value_type, A::value || B::value > {};
+namespace detail
+{
+    template <unsigned N>
+    struct or_impl;
+    template <>
+    struct or_impl<0>
+    {
+        template <typename T0=bool_<false>, typename T1 = bool_<false>, typename T2 = bool_<false>,
+                  typename T3=bool_<false>, typename T4 = bool_<false>, typename T5 = bool_<false>,
+                  typename T6=bool_<false>, typename T7 = bool_<false>, typename T8 = bool_<false>>
+        using f = bool_<T0::value || T1::value || T2::value || T3::value || T4::value ||
+                        T5::value || T6::value || T7::value || T8::value>;
+    };
+    template<>
+    struct or_impl<1>
+    {
+        template <typename T0=bool_<false>, typename T1 = bool_<false>, typename T2 = bool_<false>,
+                  typename T3=bool_<false>, typename T4 = bool_<false>, typename T5 = bool_<false>,
+                  typename T6=bool_<false>, typename T7 = bool_<false>, typename T8 = bool_<false>,
+                  typename T9=bool_<false>, typename T10 = bool_<false>, typename T11 = bool_<false>,
+                  typename T12=bool_<false>, typename T13 = bool_<false>, typename T14 = bool_<false>,
+                  typename T15=bool_<false>, typename T16 = bool_<false>, typename T17 = bool_<false>,
+                  typename T18=bool_<false>, typename T19 = bool_<false>, typename... Ts>
+        using f = bool_<T0::value || T1::value || T2::value || T3::value || T4::value ||
+                        T5::value || T6::value || T7::value || T8::value || T9::value ||
+                        T10::value || T11::value || T12::value || T13::value || T14::value ||
+                        T15::value || T16::value || T17::value || T18::value || T19::value ||
+                        or_impl<(sizeof...(Ts) / 9) != 0>::template f<Ts...>::value>;
+    };
 }
+template<typename...Ts>
+struct or_: detail::or_impl<(sizeof...(Ts) / 9) != 0>::template f<Ts...>
+{};
+}
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_LOGICAL_XOR_HPP
+#define BOOST_BRIGAND_FUNCTIONS_LOGICAL_XOR_HPP
 namespace brigand
 {
   template <typename A, typename B>
   struct xor_ : brigand::integral_constant<typename A::value_type, A::value != B::value> {};
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_MISC_HPP
+#define BOOST_BRIGAND_FUNCTIONS_MISC_HPP
+#ifndef BOOST_BRIGAND_FUNCTIONS_MISC_ALWAYS_HPP
+#define BOOST_BRIGAND_FUNCTIONS_MISC_ALWAYS_HPP
 namespace brigand
 {
   template<class T>
@@ -2314,6 +2694,9 @@ namespace brigand
      using type = T; 
   };
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_MISC_REPEAT_HPP
+#define BOOST_BRIGAND_FUNCTIONS_MISC_REPEAT_HPP
 namespace brigand
 {
 namespace detail
@@ -2371,6 +2754,9 @@ namespace lazy
     template<template<class> class F, class N, class T>
     using repeat = typename ::brigand::lazy::repeat<F, N, T>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_FUNCTIONS_MISC_SIZEOF_HPP
+#define BOOST_BRIGAND_FUNCTIONS_MISC_SIZEOF_HPP
 namespace brigand
 {
 template <typename T>
@@ -2378,6 +2764,13 @@ struct sizeof_ : brigand::integral_constant<unsigned int, sizeof(T)>
 {
 };
 }
+#endif
+#endif
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_HPP
+#define BOOST_BRIGAND_SEQUENCES_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_HAS_KEY_HPP
+#define BOOST_BRIGAND_SEQUENCES_HAS_KEY_HPP
 namespace brigand
 {
 namespace detail
@@ -2391,6 +2784,9 @@ namespace detail
     template<class L, class K>
     using has_key = typename detail::has_key_impl<L, K>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_MAKE_SEQUENCE_HPP
+#define BOOST_BRIGAND_SEQUENCES_MAKE_SEQUENCE_HPP
 namespace brigand
 {
 namespace detail
@@ -2442,6 +2838,11 @@ namespace detail
     template<class Start, unsigned N, class Next = next<_1>, template<class...> class List = list>
     using make_sequence = typename detail::make_sequence_impl<List, Start, N, Next, (N<=8)>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_SET_HPP
+#define BOOST_BRIGAND_SEQUENCES_SET_HPP
+#ifndef BOOST_BRIGAND_SEQUENCES_ERASE_HPP
+#define BOOST_BRIGAND_SEQUENCES_ERASE_HPP
 namespace brigand
 {
 template <class L, unsigned int Index>
@@ -2477,6 +2878,9 @@ namespace detail
 template <class L, class K>
 using erase = typename detail::erase_dispatch<L, K, detail::has_erase_method<L>::value>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_INSERT_HPP
+#define BOOST_BRIGAND_SEQUENCES_INSERT_HPP
 namespace brigand
 {
 namespace detail
@@ -2490,6 +2894,9 @@ namespace detail
     template<class L, class T>
     using insert = typename detail::insert_impl<L, T>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_CONTAINS_HPP
+#define BOOST_BRIGAND_SEQUENCES_CONTAINS_HPP
 namespace brigand
 {
 namespace detail
@@ -2503,6 +2910,7 @@ namespace detail
     template <class L, class K>
     using contains = typename detail::contains_impl<L, K>::type;
 }
+#endif
 namespace brigand
 {
 namespace detail
@@ -2550,6 +2958,9 @@ namespace detail
     template<class... Ts>
     using set = typename detail::make_set<Ts...>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_VALUES_AS_SEQUENCE_HPP
+#define BOOST_BRIGAND_SEQUENCES_VALUES_AS_SEQUENCE_HPP
 namespace brigand
 {
 namespace detail
@@ -2562,6 +2973,9 @@ namespace detail
 template <typename Map, template <class...> class Sequence = brigand::list>
 using values_as_sequence = transform<as_sequence<Map, Sequence>, detail::get_second<_1>>;
 }
+#endif
+#ifndef BOOST_BRIGAND_SEQUENCES_KEYS_AS_SEQUENCE_HPP
+#define BOOST_BRIGAND_SEQUENCES_KEYS_AS_SEQUENCE_HPP
 namespace brigand
 {
 namespace detail
@@ -2574,10 +2988,19 @@ namespace detail
 template <typename Map, template <class...> class Sequence = brigand::set>
 using keys_as_sequence = transform<as_sequence<Map, Sequence>, detail::get_first<_1>>;
 }
+#endif
+#endif
+#ifndef BOOST_BRIGAND_TYPES_HPP
+#define BOOST_BRIGAND_TYPES_HPP
+#ifndef BOOST_BRIGAND_TYPES_EMPTY_BASE_HPP
+#define BOOST_BRIGAND_TYPES_EMPTY_BASE_HPP
 namespace brigand
 {
   struct empty_base {};
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_HAS_TYPE_HPP
+#define BOOST_BRIGAND_TYPES_HAS_TYPE_HPP
 namespace brigand
 {
   template<typename T, typename R = void > struct has_type
@@ -2585,6 +3008,9 @@ namespace brigand
     using type = R;
   };
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_INHERIT_HPP
+#define BOOST_BRIGAND_TYPES_INHERIT_HPP
 namespace brigand
 {
   template<typename... Ts> struct inherit;
@@ -2621,6 +3047,9 @@ namespace brigand
         : inherit<T1, typename inherit<T2,typename inherit<T3, Ts...>::type>::type>
   {};
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_INHERIT_LINEARLY_HPP
+#define BOOST_BRIGAND_TYPES_INHERIT_LINEARLY_HPP
 namespace brigand
 {
   namespace lazy
@@ -2645,6 +3074,9 @@ namespace brigand
             >
   using inherit_linearly = typename lazy::inherit_linearly<Types,Node,Root>::type;
 }
+#endif
+#ifndef BOOST_BRIGAND_TYPES_REAL_HPP
+#define BOOST_BRIGAND_TYPES_REAL_HPP
 #include <cstdint>
 #include <cstring>
 namespace brigand
@@ -2666,4 +3098,6 @@ namespace brigand
   template<std::uint64_t Value>
   struct double_ : real_<double, std::uint64_t,Value> {};
 }
+#endif
+#endif
 #endif
